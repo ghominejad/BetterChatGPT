@@ -30,6 +30,8 @@ export const modelOptions: ModelOptions[] = [
   'gpt-4-turbo-2024-04-09',
   'gpt-4o',
   'gpt-4o-2024-05-13',
+  'anthropic/claude-3.5-sonnet',
+  'deepseek/deepseek-chat'
   // 'gpt-3.5-turbo-0301',
   // 'gpt-4-0314',
   // 'gpt-4-32k-0314',
@@ -57,6 +59,8 @@ export const modelMaxToken = {
   'gpt-4-turbo-2024-04-09': 128000,
   'gpt-4o': 128000,
   'gpt-4o-2024-05-13': 128000,
+  'anthropic/claude-3.5-sonnet': 4000,
+  'deepseek/deepseek-chat': 4000
 };
 
 export const modelCost = {
@@ -136,6 +140,19 @@ export const modelCost = {
     prompt: { price: 0.005, unit: 1000 },
     completion: { price: 0.015, unit: 1000 },
   },
+  'claude-3-5-sonnet-20240620': {
+    prompt: { price: 0.003, unit: 1000 },
+    completion: { price: 0.015, unit: 1000 },
+  },
+  'anthropic/claude-3.5-sonnet': {
+    prompt: { price: 0.003, unit: 1000 },
+    completion: { price: 0.015, unit: 1000 },
+  },
+  'deepseek/deepseek-chat':{
+    prompt: { price: 0.00014, unit: 1000 },
+    completion: { price: 0.00028, unit: 1000 },
+  }
+
 };
 
 export const defaultUserMaxToken = 4000;

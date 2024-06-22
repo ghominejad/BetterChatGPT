@@ -1,0 +1,35 @@
+FROM node:alpine
+
+ENV http_proxy=http://host.docker.internal:2022
+ENV https_proxy=http://host.docker.internal:2022
+ENV no_proxy=localhost,127.0.0.1
+
+# Configure Yarn to use the proxies
+RUN yarn config set proxy http://host.docker.internal:2022 \
+    && yarn config set https-proxy http://host.docker.internal:2022
+
+# Configure npm to use the proxies
+RUN npm config set proxy http://host.docker.internal:2022 \
+    && npm config set https-proxy http://host.docker.internal:2022
+
+ENV SKIP_PREFLIGHT_CHECK=true
+ENV NODE_OPTIONS=--openssl-legacy-provider
+RUN addgroup -S appgroup && \
+  adduser -S appuser -G appgroup && \
+  mkdir -p /home/appuser/app && \
+  chown appuser:appgroup /home/appuser/app
+USER appuser
+
+RUN yarn config set prefix ~/.yarn && \
+  yarn global add serve
+
+WORKDIR /home/appuser/app
+COPY --chown=appuser:appgroup package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
+COPY --chown=appuser:appgroup . .
+# RUN yarn build
+
+EXPOSE 3000
+# CMD ["/home/appuser/.yarn/bin/serve", "-s", "dist", "-l", "3000"]
+
+CMD ["yarn", "start"]
